@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<title>rem手机响应式替代方案</title>
+<style type="text/css">
+/*=== base style===*/
+*{margin: 0px; padding: 0px;}
+ul{list-style: none;}
+.wrap{min-width: 320px; max-width: 640px; width: 100%; margin: 0px auto;; background: #2a6ace; font-family:"微软雅黑"; font-size: 12px;}
+
+.pro{width:6.2rem; margin: 0px auto; padding-top: 20px; overflow: hidden;}
+.clearfix:after {content:"";height:0;display:block;clear:both;}
+.clearfix {zoom:1;}
+.pro ul{width:6.4rem;}
+.pro li{width: 3rem; height: 3.6rem; float: left; margin: 0 0.2rem 0.2rem 0;}
+.pro li .box{width: 3rem; height: 3rem; background: red;}
+.pro li p{font-size: 0.24rem; line-height: 0.6rem; text-align: center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+   <div class="pro">
+      <ul class="clearfix">
+         <li> <div class="box"></div> <p>demo</p> </li>
+         <li> <div class="box"></div> <p>demo</p> </li>
+         <li> <div class="box"></div> <p>demo</p> </li>
+         <li> <div class="box"></div> <p>demo</p> </li>
+         <li> <div class="box"></div> <p>demo</p> </li>
+      </ul>
+   </div>
+</div>
+<script type="text/javascript" src="./test.js"></script>
+<script type="text/javascript">
+window.onload = function (){
+   var _self = this;
+   _self.width = 640;//设置屏幕最大宽度
+   _self.fontSize = 50;//设置字体大小，在最大宽度显示
+   _self.recover = function(){
+      var p = (document.getElementsByTagName("html")[0].offsetWidth)/_self.width;
+      return p>1?1:p<0.5?0.5:p;
+   };//获取相对于最大宽度的比例倍数
+   _self.fontchange = function(){
+       document.getElementsByTagName("html")[0].setAttribute("style","font-size:"+_self.recover()*_self.fontSize+"px !important");
+   }//根据不同屏幕大小获取相应的font-size值
+   _self.fontchange();
+   window.addEventListener("resize",function(){_self.fontchange();},false);
+};
+
+
+</script>
+</body>
+</html>
