@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <meta name="keyword" content="blog"></meta>
+    <meta name="description" content="blog"></meta>
+    <meta name="author" content="严涵"></meta>
+    <title>图片放大demo</title>
+    <link rel="shortcut icon" href="images/F22.jpg">
+
+    <style type="text/css">
+    *{margin: 0;
+      padding:0;}
+    body {
+                background-color: #555;
+                color: #fff;
+                overflow: hidden;
+            }
+       #container{
+        width:1440px;
+        height:900px;
+       }
+    
+        </style>
+</head>
+<body>
+  <div id="container">
+    <div id="container-box" style="position:absolute;cursor:pointer">
+<img src="images/F22.jpg" id="container-img" style="cursor:pointer">
+</div>
+</div>
+
+<script>
+   var flag = true,//状态true为正常的状态,false为放大的状态
+           imgHeight,
+           imgWidth,
+           img = document.getElementsByTagName('img')[0];
+  img.onclick =  function(){
+       imgH = img.height; 
+       imgW = img.width; 
+       if(flag){     
+           flag = false;
+           img.height = imgH*2;
+           img.width = imgW*2;
+           var oDiv = document.getElementById("container-box");
+           oDiv.onmousedown = function(ev){
+                 
+                   var ev = ev || event;
+                   var disX = ev.clientX - this.offsetLeft;
+                   var disY = ev.clientY - this.offsetTop;
+ 
+                   if(oDiv.setCapture){
+                     oDiv.setCapture();
+                   }
+                document.onmousemove = function(ev){
+                   
+                    var ev = ev || event;
+                    oDiv.style.left = ev.clientX - disX+"px";
+                    oDiv.style.top = ev.clientY - disY+"px";
+                    document.getElementsByTagName('img')[0].onclick="null";
+                }
+ 
+                document.onmouseup = function(ev){
+                    document.onmousemove = document.onmouseup = null;
+                    
+                    if(oDiv.releaseCapture){
+                     
+                      oDiv.releaseCapture();
+                    }
+                }
+                if(document.onmouseup=="null"&&document.onmousemove=="null"){
+                  document.getElementsByTagName('img')[0].onclick!="null";
+                }
+                return false;
+
+           }
+       }else{          
+           flag = true;
+           img.height = imgH/2;
+           img.width = imgW/2;
+           var oDiv = document.getElementById("container-box");
+           document.getElementById("container-box").onmousedown="null";
+       }
+
+   }
+</script>
+</body>
+</html>
